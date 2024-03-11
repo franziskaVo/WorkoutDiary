@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Button, TextInput, Alert, Pressable, Platform, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { FontAwesome6,MaterialIcons } from '@expo/vector-icons';
+import React, { useState} from 'react';
+import { View, Text, TextInput, Alert, Pressable, Platform, Keyboard } from 'react-native';
+import { FontAwesome6} from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Col, Row, Grid } from "react-native-easy-grid";
 import { SegmentedButtons } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Styles from './style/Styles';
@@ -13,10 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 export const LIST_KEY = '@list';
 
 
-const AddWorkout = ({selectedUnit,setSelectedUnit, myfont}) => {
-    // const values = ["Run", "Bike","Swim"];
-    // const [value, setValue] = useState(values[0]);
-    const [value, setValue] = React.useState('');
+const AddWorkout = ({selectedUnit}) => {
     const [sportType, setSportType] = useState('');
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
@@ -55,12 +50,11 @@ const AddWorkout = ({selectedUnit,setSelectedUnit, myfont}) => {
 };
 
 
-// Funktion zum Ändern des Datums
+// Calendar --> select a date 
 const handleDateChange = (event, selectedDate) => {
-    // Überprüfen, ob das ausgewählte Datum in der Zukunft liegt
+    // selected date should not be in the future
     const currentDate = new Date();
     if (selectedDate > currentDate) {
-        // Wenn das ausgewählte Datum in der Zukunft liegt, zeige eine Alert-Nachricht an
         Alert.alert(
             'Error',
             'Please select a date in the past or today',
@@ -68,17 +62,16 @@ const handleDateChange = (event, selectedDate) => {
             { cancelable: false }
         );
     } else {
-        // Wenn das ausgewählte Datum in der Vergangenheit oder heute liegt, setzen Sie das Datum
         if (Platform.OS === 'ios') {
-            setDate(selectedDate); // Für iOS direkt das Datum setzen
+            setDate(selectedDate);
         } else {
-            setShowDatePicker(false); // Für Android das DatePicker-Fenster schließen
-            setDate(selectedDate); // Datum setzen
+            setShowDatePicker(false);
+            setDate(selectedDate);
         }
     }
 };
 
-// Add a workout 
+// Add a workout to async storage
     const addWorkout = async () => {
         if (!sportType || !distance || !duration) {
         Alert.alert('Error', 'Please fill in all fields');
@@ -93,17 +86,16 @@ const handleDateChange = (event, selectedDate) => {
       return;
     }
 
-    // Convert distance based on selected unit before saving
+    // Convert distance
     let convertedDistance = parseFloat(distance);
     if (selectedUnit === 'miles') {
-        // Convert to kilometers if the selected unit is miles
         convertedDistance /= 0.621371;
     }
 
     const listData ={
         sportType: sportType,
         date: date,
-        distance: convertedDistance, // Use the converted distance
+        distance: convertedDistance,
         duration: numDuration,
     };
 
@@ -115,34 +107,14 @@ const handleDateChange = (event, selectedDate) => {
         if (storedWorkouts) {
             workouts = JSON.parse(storedWorkouts);
         }
-
-        // Add the new workout to the existing list
-        workouts.push(listData);
-
-        // Save the updated list back to AsyncStorage
+        workouts.push(listData); // Add the new workout to the existing list and save the updated list back to AsyncStorage
         await AsyncStorage.setItem(LIST_KEY, JSON.stringify(workouts));
-
-        // Navigieren zur 'List'-Seite nach dem Hinzufügen des Workouts
         navigation.navigate('List');
-
-        // Reload the workouts in the list component
-        //loadWorkouts();
     } catch (error) {
         console.log('Error saving workout:', error);
     };
 
-  
-    // Here you would save the workout into your context or state array
-    // For now, let's just print the workout details
-    console.log('Workout added:', {
-      sportType,
-      distance: numDistance,
-      duration: numDuration,
-      date: date
-    });
-
-    // Clear input fields after adding workout
-    setSportType('');
+    setSportType(''); // Clear input fields after adding the workout
     setDistance('');
     setDuration('');
   };
@@ -153,7 +125,6 @@ const handleDateChange = (event, selectedDate) => {
       <Text style={Styles.header}>Add Workout</Text>
       <SegmentedButtons
         style={Styles.sportButton}
-        //theme={{ colors: { primary: 'green' } }}
         value={sportType}
         onValueChange={(value)=> setSportType(value)}
         buttons={[
@@ -191,10 +162,8 @@ const handleDateChange = (event, selectedDate) => {
         value={distance}
         onChangeText={text => {
             if (text === '' || parseInt(text) >= 0) {
-                // Wenn die Eingabe leer ist oder eine positive Zahl ist, setze die Distanz
                 setDistance(text);
             } else {
-                // Ansonsten setze die Distanz auf einen leeren String und zeige eine Fehlermeldung an
                 setDistance('');
                 alert('Please enter a positive number');
             }
@@ -206,16 +175,13 @@ const handleDateChange = (event, selectedDate) => {
       />
       <TextInput
         style={Styles.durationAndDistance}
-        //label='Duration'
         placeholder="Duration (min)"
         mode='outlined'
         value={duration}
         onChangeText={text => {
             if (text === '' || parseInt(text) >= 0) {
-                // Wenn die Eingabe leer ist oder eine positive Zahl ist, setze die Distanz
                 setDuration(text);
             } else {
-                // Ansonsten setze die Distanz auf einen leeren String und zeige eine Fehlermeldung an
                 setDuration('');
                 alert('Please enter a positive number');
             }

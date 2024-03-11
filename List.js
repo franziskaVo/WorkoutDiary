@@ -7,11 +7,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome6 } from '@expo/vector-icons';
 
 
-export default List = ({selectedUnit, navigation}) => {
+export default List = ({selectedUnit}) => {
 
-    //const {selectedUnit: selectedUnit} = route.params;
     const [workouts, setWorkouts] = useState([]);
-    //const [totalDistance, setTotalDistance] = useState(0);
     const [totalRunDistance, setTotalRunDistance] = useState(0);
     const [totalSwimDistance, setTotalSwimDistance] = useState(0);
     const [totalBikeDistance, setTotalBikeDistance] = useState(0);
@@ -24,17 +22,14 @@ export default List = ({selectedUnit, navigation}) => {
       );
 
     useEffect(() => {
-        // Beim ersten Laden der App das voreingestellte Workout hinzufügen
-        addDefaultWorkout();
-        // Workouts laden
+        addDefaultWorkout(); //add the two default workouts to the list when App is started
         loadWorkouts();
     }, []);
 
 
-    // Voreingestelltes Workout hinzufügen
+    // two default workouts
     const addDefaultWorkout = async () => {
         try {
-            // Voreingestelltes Workout erstellen
             const defaultWorkout1 = {
                 sportType: 'run',
                 date: '2024-02-02T00:00:00.000Z',
@@ -49,7 +44,6 @@ export default List = ({selectedUnit, navigation}) => {
             };
 
             const defaultWorkouts = [defaultWorkout1, defaultWorkout2];
-             // AsyncStorage aktualisieren
             await AsyncStorage.setItem(LIST_KEY, JSON.stringify(defaultWorkouts));
         } catch (error) {
             console.log("Error adding default workout: ", error);
@@ -59,7 +53,7 @@ export default List = ({selectedUnit, navigation}) => {
 
    
 
-    //--------get scoreboard data from async storage------
+    //get data from async storage
     const loadWorkouts = async () => {
         try {
             const storedWorkouts = await AsyncStorage.getItem(LIST_KEY);
@@ -73,7 +67,7 @@ export default List = ({selectedUnit, navigation}) => {
         }
     };
 
-    // Funktion zum Berechnen der Gesamtdistanz aller Workouts für jede Sportart
+
     const calculateTotalDistanceBySport = (workouts) => {
         let totalRunDistance = 0;
         let totalSwimDistance = 0;
@@ -101,12 +95,9 @@ export default List = ({selectedUnit, navigation}) => {
     };
 
 
-    // Render-Item-Funktion für jedes Workout in der FlatList
     const renderWorkoutItem = ({ item }) => {
-        // Umwandeln des ISO-Datums in ein Date-Objekt
         const workoutDate = new Date(item.date);
-        // Extrahieren des Datums im gewünschten Format TT.MM.JJJJ
-        const formattedDate = workoutDate.toLocaleDateString('de-DE');
+        const formattedDate = workoutDate.toLocaleDateString('de-DE'); //timeformat for date day/month/year
 
         return (
         <View style={Styles.workoutItem}>
@@ -118,9 +109,7 @@ export default List = ({selectedUnit, navigation}) => {
         );
     };
 
-    
-
-    // Funktion zur Rendern des Sport-Icons basierend auf dem Sporttyp
+    //Icon shown at saved workout
     const renderSportIcon = (sportType) => {
         switch (sportType) {
             case 'run':
@@ -130,10 +119,11 @@ export default List = ({selectedUnit, navigation}) => {
             case 'swim':
                 return <FontAwesome6 name="person-swimming" size={24} color={"#476369"} />;
             default:
-                return null; // Fallback, falls der Sporttyp nicht erkannt wird
+                return null;
         }
     };
 
+    //convert the distance 
     const convertDistance = (distance, selectedUnit) => {
         if (selectedUnit === 'miles') {
             return (distance * 0.621371).toFixed(2);

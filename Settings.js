@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Pressable } from "react-native";
+import { View, Text} from "react-native";
 import RadioForm from "react-native-simple-radio-button";
 import Styles from "./style/Styles";
-import List from "./List";
 
-const SettingsScreen = ({ selectedUnit, setSelectedUnit, navigation }) => {
-  //const [selectedUnit, setSelectedUnit] = useState("kilometers");
+const SettingsScreen = ({setSelectedUnit}) => {
 
   const handleUnitChange = (value) => {
     setSelectedUnit(value);

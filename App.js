@@ -1,13 +1,12 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React, {useState} from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Styles from './style/Styles';
 import { FontAwesome6 } from '@expo/vector-icons';
 import AddWorkout from './AddWorkout';
 import List from './List';
 import Settings from './Settings';
-import { Platform } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -15,22 +14,12 @@ export default function App() {
   const [selectedUnit, setSelectedUnit] = useState("kilometers");
   const [checkUnit, setCheckUnit] = React.useState("kilometers")
 
-  // Font selection based on device operating system
-  // const myfont = Platform.select({
-  //   ios: {
-  //     myfont: "Academy Engraved LET", // iOS specific fontFamily
-  //   },
-  //   android: {
-  //     myfont: "Roboto", // Android specific fontFamily
-  //   },
-  // });
-
   return (
       <NavigationContainer>
         <View style={Styles.container}>
         <Tab.Navigator
           screenOptions={({route}) => ({
-            tabBarIcon: ({ focused, color, size }) => {
+            tabBarIcon: ({ color }) => {
               let iconName;
 
               if (route.name === 'AddWorkout') {

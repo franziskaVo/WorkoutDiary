@@ -11,15 +11,10 @@ export default StyleSheet.create ({
     containerAdd: {
         flex: 1,
         backgroundColor: '#9bc7d2',
-        //paddingTop:40,
-        //justifyContent:'center',
-        //alignItems:'center'
     },
     containerList: {
         flex: 1,
         backgroundColor: '#9bc7d2',
-        //paddingTop:40,
-        //alignItems:'center',
     },
     containerSettings: {
         flex: 1,
@@ -49,8 +44,6 @@ export default StyleSheet.create ({
     button:{
         alignItems: 'center',
         justifyContent: 'center',
-        //flexDirection: "row",
-        //width: 200,
         margin:10,
         textAlign:'center',
         fontSize:20,
@@ -61,9 +54,6 @@ export default StyleSheet.create ({
     },
 
     sportButton:{
-        //borderWidth:1,
-        //paddingTop:5,
-        //paddingBottom:5,
         paddingLeft:10,
         paddingRight:10,
         textAlign:'center',
@@ -89,7 +79,6 @@ export default StyleSheet.create ({
         backgroundColor : "#ffffff",
         paddingBottom: 10,
         paddingTop:10,
-        //marginBottom:10,
         marginTop:20,
         marginLeft:10,
         marginRight:10
@@ -112,7 +101,6 @@ export default StyleSheet.create ({
         borderColor: '#476369',
     },
     
-
     distances: {
         flexDirection:'row',
         justifyContent: 'space-around',
@@ -122,11 +110,9 @@ export default StyleSheet.create ({
     },
 
     distanceButton: {
-        width: '30%', // Verteilen Sie den verfügbaren Platz auf die drei Elemente
+        width: '30%',
         alignItems: 'center',
         justifyContent: 'center',
-        //flexDirection: "row",
-        //width: 200,
         margin:10,
         textAlign:'center',
         fontSize:20,
@@ -143,7 +129,6 @@ export default StyleSheet.create ({
     },
 
     runIcon: {
-        //textAlign:'center',
         color: '#ffffff',
         fontSize: 20
     },
@@ -151,12 +136,5 @@ export default StyleSheet.create ({
     radioButton:{
         marginLeft:20,
         marginRight:10,
-        // buttonColor:"#ffffff",
-        // labelColor:"#ffffff",
-        // textAlign:'center',
-        // fontSize:20,
-        // borderRadius: 50,
-        // backgroundColor: '#476369',
-        // color: '#ffffff',
     }
 })
